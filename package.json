@@ -1,0 +1,20 @@
+{
+  "name": "boka-url-builder",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --base=./",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ingka/button-webc": "^0.15.14",
+    "@ingka/icon-store": "^0.9.25",
+    "@ingka/icon-webc": "^0.14.10",
+    "@ingka/select-webc": "^0.12.12",
+    "@ingka/switch-webc": "^0.10.5"
+  },
+  "devDependencies": {
+    "vite": "^8.3.8"
+  }
+}

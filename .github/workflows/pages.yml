@@ -27,15 +27,31 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Stage static site
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.SKAPA_NPM_TOKEN }}
         run: |
-          mkdir public
-          cp index.html service-products.js public/
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "Configure the SKAPA_NPM_TOKEN secret for the Skapa registry." >&2
+            exit 1
+          fi
+          npm config set @ingka:registry https://npm.m2.blue.cdtapps.com/
+          npm config set //npm.m2.blue.cdtapps.com/:_authToken "$NODE_AUTH_TOKEN"
+          npm ci
+
+      - name: Build site
+        run: npm run build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: public
+          path: dist
 
       - name: Deploy to GitHub Pages
         id: deployment
